@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exposant Airbnb</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Afegeix el favicon -->
+    <link rel="icon" href="https://exposantbnb.s3.eu-west-3.amazonaws.com/Imatges/exposantbnb_icon.png" type="png">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-mapbox-gl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Personalitzar els botons primaris */
+        .btn-primary {
+            background-color: #D32F2F; /* Vermell activista */
+            border-color: #D32F2F;
+        }
+    
+        .btn-primary:hover {
+            background-color: #B71C1C; /* Un to més fosc quan el botó es passa amb el ratolí */
+            border-color: #B71C1C;
+        }
+    
+        /* Personalitzar altres botons (opcional) */
+        .btn-secondary {
+            background-color: #000000; /* Fons negre */
+            border-color: #000000;
+            color: #FFFFFF; /* Text blanc */
+        }
+    
+        .btn-secondary:hover {
+            background-color: #333333; /* Una versió més clara per al hover */
+        }
+        
+        h3 {
+            color: #000000; /* Color negre per al text */
+            border-bottom: 3px solid #D32F2F; /* Subratllat vermell activista */
+            padding-bottom: 5px; /* Espai entre el text i el subratllat */
+            display: inline-block; /* Assegura que la línia sota el text sigui ajustada a l'ample del text */
+        }
+        .nav-link.active {
+            color: #FFFFFF;
+            font-weight: bold; /* Opcional: destaca l'enllaç amb negreta */
+            border-bottom: 3px solid #D32F2F; /* Subratllat vermell activista */
+            padding-bottom: 5px; /* Espai entre el text i el subratllat */
+            display: inline-block; /* Assegura que la línia sota el text sigui ajustada a l'ample del text */
+        }
+
+        /* Assegurar que els altres enllaços no actius es mantinguin blancs */
+        .nav-link {
+            color: #FFFFFF; /* Enllaços no actius en blanc */
+        }
+
+        .nav-link:hover {
+            color: #FFFFFF; /* Enllaços no actius en blanc */
+            border-bottom: 3px solid #D32F2F; /* Subratllat vermell activista */
+            padding-bottom: 5px; /* Espai entre el text i el subratllat */
+            display: inline-block; /* Assegura que la línia sota el text sigui ajustada a l'ample del text */
+        }
+
+        /* Estilo para mejorar la apariencia de la leyenda */
+        .info.legend {
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+            padding: 10px;
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .info.legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+            border-radius: 3px; /* Bordes redondeados para los cuadrados de color */
+        }
+
+        .info.legend div {
+            clear: both;
+            line-height: 1.6;
+        }
+
+        #map {
+        border-radius: 15px; /* Bordes redondeados para el mapa */
+        overflow: hidden; /* Evitar que el contenido del mapa sobresalga de los bordes */
+    }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="bg-dark text-white py-2 mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo a la izquierda -->
+        <div class="d-flex flex-column align-items-start">
+            <img src="https://exposantbnb.s3.eu-west-3.amazonaws.com/Imatges/exposantbnb_logo.png" alt="Logo ExposantBnb" class="img-fluid d-block mx-auto" style="max-height: 60px;">
+        </div>
+        
+        <!-- Título centrado -->
+        <div class="d-flex justify-content-center flex-grow-1">
+            <h2 class="h5 mb-0">Exposant AirBnb Barcelona</h2>
+        </div>
+        
+        <!-- Menú a la derecha -->
+        <nav class="navbar navbar-dark bg-dark">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">Gràfics i Mapa</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dades.html" class="nav-link">Dades i Nota metodològica</a> <!-- Pàgina activa -->
+                </li>
+                <li class="nav-item">
+                    <a href="https://assembleabarris.wordpress.com/" target="_blank" class="nav-link">Iniciativa d'ABDT</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- First Container: Description -->
+<div class="container my-5">
+    <div class="text-start">
+        <h3>Benvingudes i benvinguts</h3>
+        <p class="mt-4">
+            Barcelona està en crisi, una crisi d'habitatge que afecta milers de ciutadanes i ciutadans, i una de les causes més evidents d'aquesta emergència és l'abús d'Airbnb i altres plataformes de lloguer turístic. Barcelona està en crisi, una crisi d'habitatge que afecta milers de ciutadanes i ciutadans, i una de les causes més evidents d'aquesta emergència és l'abús d'Airbnb i altres plataformes de lloguer turístic.
+        </p>
+        <p class="mt-4">Assemblea de Barris pel Decreixement Turístic.</p>
+    </div>
+</div>
+
+<!-- Container Filtres -->
+<div class="container mb-4 p-4 bg-light rounded">
+    <h3 class="mb-3">Filtra els resultats</h3>
+    
+    <div class="row">
+        <!-- Filtro por Código Postal -->
+        <div class="col-md-4 mb-2">
+            <div class="input-group">
+                <label class="input-group-text" for="postcodeFilter">Codi Postal</label>
+                <select id="postcodeFilter" class="form-select">
+                    <option value="all">Tots</option>
+                    <!-- Opciones dinámicas -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Filtro por Barrio -->
+        <div class="col-md-4 mb-2">
+            <div class="input-group">
+                <label class="input-group-text" for="quarterFilter">Barri</label>
+                <select id="quarterFilter" class="form-select">
+                    <option value="all">Tots</option>
+                    <!-- Opciones dinámicas -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Filtro por Tipo -->
+        <div class="col-md-4 mb-2">
+            <div class="input-group">
+                <label class="input-group-text" for="typeFilter">Tipus</label>
+                <select id="typeFilter" class="form-select">
+                    <option value="all">Tots</option>
+                    <option value="Short-term Illegal">Lloguer de curta estada il·legal</option>
+                    <option value="Short-term Legal">Lloguer de curta estada legal no ètic</option>
+                    <option value="Long-term">Lloguer de temporada legal no ètic (+31 dies)</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de aplicar filtros (opcional) -->
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" type="button" id="applyFilters">Aplica els filtres</button>
+    </div>
+</div>
+
+<!-- Container para gráficos y mapa -->
+<div class="container mb-4">
+    <div class="row">
+        <!-- Columna para los gráficos: ocupa 4/12 del ancho -->
+        <div class="col-lg-4 col-md-12 d-flex flex-column">
+            <h3 style="position: sticky; top: 0; background-color: white; z-index: 1; margin-bottom: 30px;">Gràfics</h3>
+        
+            <!-- Primer gráfico -->
+            <h6>Distribució d'apartaments per tipologia</h6>
+            <div class="d-flex justify-content-center align-items-center mb-3" style="height: 150px; padding: 10px;">
+                <canvas id="apartmentChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <p class="small mb-4" style="font-size: 9px;">Presentem el número total i la distribució d'apartaments per tipus. Temporada serien els apartaments que només accepten reserves de més de 31 dies. Els de curta estada els separem entre els legals (amb llicència pujada i vàlida) i els il·legals.</p>
+        
+            <!-- Segundo gráfico -->
+            <h6>Distribució d'apartaments de curta estada legals vs il·legals</h6>
+            <div class="d-flex justify-content-center align-items-center mb-3" style="height: 150px; padding: 10px;">
+                <canvas id="legalStatusChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <p class="small mb-4" style="font-size: 9px;">Deixant de banda els apartaments de temporada. Analitzem quin % dels lloguers de curta estada són legals (tenen llicència vàlida) i quin % no ho és.</p>
+        
+            <!-- Tercer gráfico -->
+            <h6>Distribució d'apartaments il·legals per tipologia</h6>
+            <div class="d-flex justify-content-center align-items-center mb-3" style="height: 150px; padding: 10px;">
+                <canvas id="ilegalStatusChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            <p class="small mb-4" style="font-size: 9px;">Ens trobem davant de dos escenaris, els apartaments que directament no han pujat cap tipus de llicència i els que ho han fet pero pujant una llicència no vàlida.</p>
+        </div>
+
+        <!-- Columna para el mapa: ocupa 8/12 del ancho, sin margen derecho -->
+        <div class="col-lg-8 col-md-12 pe-0">
+            <h3>Mapa</h3>
+            <div id="map" style="height: 800px;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+        <p>Assemblea de Barris pel Decreixement Turístic.</p>
+        <!-- Social Media Icons -->
+        <div class="mt-3">
+            <a href="https://www.instagram.com/assbarrisdt/" target="_blank" class="text-white me-2"><i class="bi bi-instagram"></i> AssDT</a>
+            <a href="https://x.com/AssBarrisDT" target="_blank" class="text-white"><i class="bi bi-x"></i>AssBarrisDT</a>
+        </div>
+    </div>
+</footer>
+
+<!-- Chart.js for Charts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let originalData = [];
+        let legalStatusChartInstance = null; // Variables para almacenar las instancias de los gráficos
+        let apartmentChartInstance = null;
+        let ilegalStatusChartInstance = null;
+
+        // Cargar datos desde el JSON
+        fetch('https://airbnbscrapper.s3.eu-west-3.amazonaws.com/latest.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();  // Leer como texto
+        })
+        .then(text => {
+            // Dividir el texto en líneas y procesarlas como JSON
+            const lines = text.trim().split('\n');  // Dividir el archivo en líneas
+            const data = lines.map((line, index) => {
+                try {
+                    return JSON.parse(line);  // Intentar parsear cada línea como JSON
+                } catch (e) {
+                    console.error(`Error al parsear la línea ${index + 1}: ${e.message}`, line);  // Mostrar error con la línea
+                    return null;  // Retornar null en caso de error
+                }
+            }).filter(line => line !== null);  // Filtrar cualquier línea que no haya sido parseada correctamente
+
+            // Ahora 'data' es un array de objetos JSON
+            originalData = data;
+
+            // Llama a las funciones para actualizar tu UI
+            populatePostcodeFilter(data); // Rellenar el filtro de códigos postales
+            populateQuarterFilter(data);  // Rellenar el filtro de barrios
+            updateCharts(originalData);   // Inicializar los gráficos con los datos
+            updateMap(originalData);      // Inicializar el mapa con los datos
+        })
+        .catch(error => console.error('Error al cargar el JSON desde S3:', error));
+
+        // Escuchar el clic en el botón "Apply Filters"
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            updateCharts(); // Aplicar los filtros y actualizar los gráficos
+        });
+
+        // Función para rellenar el filtro de códigos postales
+        function populatePostcodeFilter(data) {
+            const uniquePostcodes = [...new Set(data.map(listing => listing.Address.postcode))];
+            const select = document.getElementById('postcodeFilter');
+            
+            uniquePostcodes.forEach(postcode => {
+                const option = document.createElement('option');
+                option.value = postcode;
+                option.textContent = postcode;
+                select.appendChild(option);
+            });
+        }
+
+        // Función para rellenar el filtro de barrio
+        function populateQuarterFilter(data) {
+            const uniqueQuarters = [...new Set(data.map(listing => listing.Address.quarter))];
+            const select = document.getElementById('quarterFilter');
+            
+            uniqueQuarters.forEach(quarter => {
+                const option = document.createElement('option');
+                option.value = quarter;
+                option.textContent = quarter;
+                select.appendChild(option);
+            });
+        }
+
+        // Función para actualizar los gráficos según los filtros
+        function updateCharts() {
+            const selectedQuarter = document.getElementById('quarterFilter').value;
+            const selectedPostcode = document.getElementById('postcodeFilter').value;
+            const selectedType = document.getElementById('typeFilter').value;
+
+            // Filtrar los datos según los filtros seleccionados
+            let filteredData = originalData;
+
+            if (selectedPostcode !== 'all') {
+                filteredData = filteredData.filter(listing => listing.Address.postcode == selectedPostcode);
+            }
+
+            if (selectedQuarter !== 'all') {
+                filteredData = filteredData.filter(listing => listing.Address.quarter === selectedQuarter);
+            }
+
+            if (selectedType !== 'all') {
+                filteredData = filteredData.filter(listing => {
+                    if (selectedType === 'Long-term') {
+                        return listing.Length === 'one_month';
+                    } else if (selectedType === 'Short-term Legal') {
+                        return listing.Length === 'one_week' && listing["Legal"] === 'Legal';
+                    } else if (selectedType === 'Short-term Illegal') {
+                        return listing.Length === 'one_week' && listing["Legal"] === 'Illegal';
+                    }
+                });
+            }
+
+            // Actualizar el gráfico de estado legal
+            updateLegalStatusChart(filteredData);
+
+            // Actualizar el gráfico de tipos de apartamentos
+            updateApartmentChart(filteredData);
+
+            // Actualizar el gráfico de tipos de apartamentos
+            updateilegalStatusChart(filteredData);
+        }
+
+        // Función para actualizar el gráfico de tipos de apartamentos
+        function updateApartmentChart(data) {
+            // Contar el número total de apartamentos
+            const totalApartments = data.length;
+
+            // Contar los de corta estancia (legales e ilegales) y larga estancia
+            const shortTermLegalCount = data.filter(listing => listing['Length'] === 'one_week' && listing['Legal'] === 'Legal').length;
+            const shortTermIllegalCount = data.filter(listing => listing['Length'] === 'one_week' && listing['Legal'] === 'Ilegal').length;
+            const longTermCount = data.filter(listing => listing['Length'] === 'one_month').length;
+
+            // Destruir el gráfico anterior si ya existe
+            if (apartmentChartInstance) {
+                apartmentChartInstance.destroy();
+            }
+
+            const ctx = document.getElementById('apartmentChart').getContext('2d');
+            apartmentChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Total', 'Curta estada il·legal', 'Curta estada legal', 'Temporada'],
+                    datasets: [{
+                        data: [totalApartments, shortTermIllegalCount, shortTermLegalCount, longTermCount],
+                        backgroundColor: ['#dcdcdc', '#ff5252', '#52bf90', '#ffa500'], // Colores
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Mantener el gráfico horizontal
+                    plugins: {
+                        legend: {
+                            display: false // Ocultar la leyenda
+                        },
+                        datalabels: {
+                            display: true,
+                            color: '#000000',
+                            anchor: 'end',
+                            align: 'right',
+                            font: {
+                                weight: 'bold',
+                                size: 12 
+                            },
+                            formatter: function(value, context) {
+                                // Calcular el porcentaje y formatear el label
+                                const percentage = ((value / totalApartments) * 100).toFixed(1);
+                                return `${value} (${percentage}%)`; // Mostrar el valor y el porcentaje
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false // Ocultar el grid
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false // Ocultar el grid del eje Y
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10, // Hacer más pequeña la letra del indexAxis (etiquetas del eje Y)
+                                    weight: 'bold'
+                                },
+                                color: '#333' // Color de las etiquetas del eje Y
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+        
+        // Función para actualizar el gráfico de estado legal
+        function updateLegalStatusChart(data) {
+            let legalCount = 0;
+            let illegalCount = 0;
+
+            // Contar cuántos son legales e ilegales
+            data.forEach(listing => {
+                if (listing["Length"] === "one_week") {
+                    if (listing["Legal"] === "Legal") {
+                        legalCount++;
+                    } else {
+                        illegalCount++;
+                    }
+                }
+            });
+
+            // Destruir el gráfico anterior si ya existe
+            if (legalStatusChartInstance) {
+                legalStatusChartInstance.destroy();
+            }
+
+            const ctx = document.getElementById('legalStatusChart').getContext('2d');
+            legalStatusChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Legal no ètic', 'Il·legal'],
+                    datasets: [{
+                        data: [legalCount, illegalCount],
+                        backgroundColor: ['#52bf90', '#ff5252']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false // Ocultar la leyenda
+                        },
+                        datalabels: {
+                            display: true,
+                            color: '#000000',
+                            font: {
+                                weight: 'bold', // Texto en negrita
+                                size: 10       // Tamaño de fuente 10px
+                            },
+                            formatter: (value, context) => {
+                                const total = legalCount + illegalCount;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return `${percentage}% (${value})`;
+                            }
+                        }
+                    },
+                    cutout: '50%' // Tamaño del agujero central del gráfico de donut
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+
+        // Función para actualizar el gráfico de % Apartamentos ilegales por tipo
+        function updateilegalStatusChart(data) {
+            let exemptCount = 0;
+            let notExemptCount = 0;
+
+            // Contar cuántos son exempt vs not exempt
+            data.forEach(listing => {
+                if (listing["Legal"] === "Ilegal" && listing["Length"] === "one_week") {
+                    if (listing["Exempt"] === "Exempt") {
+                        exemptCount++;
+                    } else {
+                        notExemptCount++;
+                    }
+                }
+            });
+
+            // Destruir el gráfico anterior si ya existe
+            if (ilegalStatusChartInstance) {
+                ilegalStatusChartInstance.destroy();
+            }
+
+            const ctx = document.getElementById('ilegalStatusChart').getContext('2d');
+            ilegalStatusChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sense llicència', 'Llicència no vàlida'],
+                    datasets: [{
+                        data: [exemptCount, notExemptCount],
+                        backgroundColor: ['#ff7b7b', '#ffbaba']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false // Ocultar la leyenda
+                        },
+                        datalabels: {
+                            display: true,
+                            color: 'black',
+                            font: {
+                                weight: 'bold', // Texto en negrita
+                                size: 10        // Tamaño de fuente 10px
+                            },
+                            formatter: (value, context) => {
+                                const total = exemptCount + notExemptCount;
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return `${percentage}% (${value})`;
+                            }
+                        }
+                    },
+                    cutout: '50%' // Tamaño del agujero central del gráfico de donut
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+        
+    });
+</script>
+
+<!-- Scripts del mapa -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Inicializar el mapa centrado en Barcelona
+        const map = L.map('map').setView([41.3851, 2.1734], 12); // Coordenadas iniciales de Barcelona
+
+        // Añadir las capas de OpenStreetMap
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/attributions">CartoDB</a> &copy; OpenStreetMap contributors',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        let originalData = [];
+
+        fetch('https://airbnbscrapper.s3.eu-west-3.amazonaws.com/latest.json')
+            .then(response => response.text())  // Leer el contenido como texto
+            .then(text => {
+                const lines = text.trim().split('\n');  // Dividir el contenido por línea
+                const data = lines.map(line => JSON.parse(line));  // Parsear cada línea como JSON
+                
+                // Ahora 'data' es un array de objetos JSON
+                originalData = data;
+                updateMap(data);  // Inicializar mapa con todos los marcadores
+            })
+            .catch(error => console.error('Error al cargar el JSON desde S3:', error));
+        
+        // Función para obtener el color del marcador
+        function getColor(listing) {
+            if (listing.Length === 'one_month') {
+                return '#ffa500'; // Apartamentos de larga estancia
+            } else if (listing["Legal"] === 'Legal') {
+                return '#52bf90'; // Apartamentos de corta estancia legales
+            } else {
+                return '#ff5252'; // Apartamentos de corta estancia ilegales con el nuevo rojo
+            }
+        }
+
+        // Función para crear un icono con Bootstrap
+        function createIcon(color) {
+            // Crear un ícono personalizado de Leaflet con el color que corresponde
+            return L.divIcon({
+                className: 'custom-div-icon', 
+                html: `<i class="bi bi-house-x-fill" style="color: ${color}; font-size: 24px;"></i>`,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+        }
+
+        // Función para actualizar el mapa con los datos filtrados
+        function updateMap(data) {
+        // Eliminar marcadores previos
+        map.eachLayer(function(layer) {
+            if (layer instanceof L.Marker) {
+                map.removeLayer(layer);
+            }
+        });
+
+        // Añadir los nuevos marcadores filtrados
+        data.forEach(listing => {
+            // Split the Coordinates string into latitude and longitude
+            const [latitude, longitude] = listing.Coordinates.split(',').map(coord => parseFloat(coord.trim())); // Ensure they are floats
+
+            const popupContent = `
+                <strong><a href="${listing.URL}" target="_blank">${listing.Title}</a></strong><br>
+                <em>${listing.Address.display_name}</em><br>
+                <strong>Tipologia:</strong> ${listing.Length === 'one_month' ? 'Temporada' : 'Curta Estada'}<br>
+                <strong>Legalitat:</strong> ${listing["Legal"]}<br>
+                 <strong>Rao d'il·legalitat:</strong> ${listing["Legal"] === 'Legal' ? '-' : (listing["Exempt"] === 'Exempt' ? 'Llicència no introduïda' : 'Llicència introduïda no vàlida')}<br>
+                <strong>Llicència:</strong> ${listing["Registration Number"]}
+            `;
+
+            // Crear marcador con color y popup
+            const color = getColor(listing); // Obtener el color basado en la lógica
+            const marker = L.marker([latitude, longitude], { icon: createIcon(color) })
+                .addTo(map)
+                .bindPopup(popupContent);
+        });
+    }
+
+        // Función para aplicar filtros y actualizar el mapa
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            const selectedPostcode = document.getElementById('postcodeFilter').value;
+            const selectedQuarter = document.getElementById('quarterFilter').value;
+            const selectedType = document.getElementById('typeFilter').value;
+
+            // Filtrar los datos según los filtros seleccionados
+            let filteredData = originalData;
+
+            if (selectedPostcode !== 'all') {
+                filteredData = filteredData.filter(listing => listing.Address.postcode == selectedPostcode);
+            }
+
+            if (selectedQuarter !== 'all') {
+                filteredData = filteredData.filter(listing => listing.Address.quarter === selectedQuarter);
+            }
+
+            if (selectedType !== 'all') {
+                filteredData = filteredData.filter(listing => {
+                    if (selectedType === 'Long-term') {
+                        return listing.Length === 'one_month';
+                    } else if (selectedType === 'Short-term Legal') {
+                        return listing.Length === 'one_week' && listing["Legal"] === 'Legal';
+                    } else if (selectedType === 'Short-term Illegal') {
+                        return listing.Length === 'one_week' && listing["Legal"] === 'Ilegal';
+                    }
+                });
+            }
+
+            // Actualizar el mapa con los datos filtrados
+            updateMap(filteredData);
+        });
+
+        // Añadir leyenda al mapa
+        const legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'info legend');
+            // Crear la leyenda con los colores correspondientes
+            div.innerHTML += `<i style="background-color: #ff5252; width: 18px; height: 18px; display: inline-block;"></i> Lloguer de curta estada il·legal<br>`;
+            div.innerHTML += '<i style="background-color: #52bf90; width: 18px; height: 18px; display: inline-block;"></i> Lloguer de curta estada legal no ètic<br>';
+            div.innerHTML += '<i style="background-color: #ffa500; width: 18px; height: 18px; display: inline-block;"></i> Lloguer de temporada legal no ètic<br>';
+            return div;
+        };
+
+        legend.addTo(map);
+    });
+</script>
+
+</body>
+</html>
