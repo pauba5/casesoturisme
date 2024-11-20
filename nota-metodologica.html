@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Metodològica - Cases o Turisme</title>
+    <link rel="icon" href="https://sindominio.net/abdt/Imatges/Ico-Cases-o-Turisme.ico" type="image/x-icon">
+    <style>
+        /* Global Styles */
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f0f0;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #0024b8;
+            color: white;
+            padding: 1rem;
+        }
+
+        /* Container for centering content */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Flex utilities */
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: #cccccc;
+            margin-top: 0px;
+            line-height: 0.5;
+        }
+
+        /* Navigation List Styling */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav ul li {
+            margin-left: 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex-grow: 1;
+            padding: 1rem 1rem 2rem;
+            background-color: #f0f0f0;
+        }
+
+        /* Card Component Styles */
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #0024b8;
+            color: white;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        footer .column {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            color: #00bfff;
+            text-decoration: underline;
+        }
+
+        footer .logos img {
+            height: 40px;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        footer .logos img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 0 0.5rem;
+            }
+
+            footer .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            footer .column {
+                margin-bottom: 1.5rem;
+            }
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HFZL68P8K2"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-HFZL68P8K2');
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center">
+                <!-- Logo amb el títol integrat -->
+                <a href="https://casesoturisme.org/" rel="noopener noreferrer" style="margin-right: 1rem;">
+                    <img src="https://sindominio.net/abdt/Imatges/casesoturisme.png" alt="Logo ABDT" style="height: 5rem;">
+                </a>
+            </div>
+            
+            <!-- Navegació -->
+            <nav>
+                <ul class="flex">
+                    <li><a href="https://casesoturisme.org/manifest.html" style="color: white; text-decoration: none; margin-right: 1rem;">Manifest Complet</a></li>
+                    <li><a href="https://casesoturisme.org/nota-metodologica.html" style="color: white; text-decoration: none; margin-right: 1rem;">Nota metodològica</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-content">
+                <h2>Nota Metodològica</h2>
+                <p>Aquesta pàgina detalla la metodologia utilitzada en l&apos;estudi &quot;Cases o Turisme: 190.000 oportunitats de recuperar habitatge&quot;. A continuació, es descriuen les fonts de dades, els mètodes d&apos;anàlisi, les definicions i les consideracions importants per interpretar els resultats.</p>
+
+                <h3>Fonts de Dades</h3>
+                <ul>
+                    <li><strong>Dades d&apos;Airbnb:</strong> Proporcionades per <a href="http://insideairbnb.com" target="_blank" rel="noopener noreferrer">Inside Airbnb</a>, una organització independent que recopila informació pública d&apos;Airbnb.</li>
+                    <li><strong>Dades oficials d&apos;allotjaments turístics:</strong> Proporcionades pel <a href="https://w121.bcn.cat/APPS/censactivitats/cceatDef.do?reqCode=search" target="_blank" rel="noopener noreferrer">cens de l'Ajuntament de Barcelona</a>, incloent informació sobre hotels, pensions, albergs i habitatges d&apos;ús turístic (HUT) amb llicència.</li>
+                </ul>
+
+                <h3>Mètodes d&apos;Anàlisi</h3>
+                <ol>
+                    <li><strong>Identificació d&apos;allotjaments:</strong> S&apos;han creuat les dades d&apos;Airbnb amb les dades oficials per identificar allotjaments amb i sense llicència vàlida.</li>
+                    <li><strong>Anàlisi de la validesa de la llicència a Airbnb:</strong> S'han definit criteris de validesa i usat per a evaluar tots els allotjaments.
+                    <li><strong>Conversió d'adreçes a coordenades:</strong> Els allotjaments provenent del cens de ajuntament només contenen la direcció que hem convertit a través de https://geocode.maps.co/ (open source) a coordenades per a presentar-los al mapa.</li>
+                    <li><strong>Generació del map:</strong> S'han mostrat les dades en un mapa utilitzant OpenStreetmap (open source).</li>
+                </ol>
+                
+                <h3>Categorització</h3>
+                <ul>
+                    <li>Hotels: incloem dintre d'aquesta categoria tot tipus d'hotels pero també; pensions, albergs i residències d'estudiants. </li>
+                    <li>Habitatges d'ús turístic (HUTs): incloem </li>
+                    <li>Temporada: incloem els apartaments complets d'Airbnb que només es lloguen per un mínim de >30 dies els categoritzem com a lloguer de temporada.</li>
+                    <li>Habitacions: incloem el lloguer d'habitacions compartides o privades. </li>
+                    <li>La identificació d&apos;allotjaments sense llicència es basa en la informació disponible i pot estar subjecta a errors.</li>
+                </ul>
+
+                <h3>Criteris de Validesa</h3>
+                <ul>
+                    <li>Hotels i HUTS: Llicència vàlida no repetida (si una llicència està introduïda en més d'un allotjament es consideren tots els allotjaments amb aquesta llicència com a no vàlids)</li>
+                    <li>Temporada: Tots es consideren com a vàlids.</li>
+                    <li>Habitacions: Llicència vàlida o amfitrió amb només un allotjament pujat a Airbnb (en el moment en el que un amfitrió té més d'un allotjament a Airbnb considerem les habitacions com a no vàlides)</li>
+                </ul>
+
+                <h3>Consideracions Importants</h3>
+                <ul>
+                    <li>Les dades d&apos;Airbnb són una captura en un moment específic el 6 de setembre i poden no reflectir canvis recents.</li>
+                    <li>La identificació d&apos;allotjaments sense llicència vàlida es basa només en la informació disponible a Airbnb i el cens i pot estar subjecta a errors.</li>
+                    <li>La categorització dels allotjaments d'Airbnb prové d'Airbnb i pertant està subjecte a errors.</li>
+                    <li>L&apos;estudi no inclou plataformes de lloguer vacacional diferents d&apos;Airbnb, com per exemple Booking, pertant subestima el nombre total d&apos;allotjaments turístics.</li>
+                </ul>
+
+                <p>Per a més informació o consultes sobre la metodologia, si us plau, contacteu amb l&apos;Assemblea de Barris pel Decreixement Turístic. La millor forma de recolzar el projecte és compartir-lo.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <!-- Primera columna: Nombre y redes sociales -->
+            <div class="column">
+                <p>
+                    <a href="https://assembleabarris.wordpress.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
+                        Assemblea de Barris pel Decreixement Turístic
+                    </a>
+                </p>
+                <div>
+                    <a href="https://www.instagram.com/assbarrisdt/" target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-instagram"></i> AssBarrisDT
+                    </a>
+                    <a href="https://x.com/AssBarrisDT" target="_blank" rel="noopener noreferrer" style="margin-left: 1rem;">
+                        <i class="bi bi-x"></i> AssBarrisDT
+                    </a>
+                </div>
+            </div>
+    
+            <!-- Segunda columna: InsideAirbnb -->
+            <div class="column">
+                <div class="logos">
+                    <a href="http://insideairbnb.com" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sindominio.net/abdt/Imatges/insideairbnb.png" alt="InsideAirbnb">
+                    </a>
+                </div>
+                <p>
+                    Gràcies a <a href="http://insideairbnb.com" target="_blank" rel="noopener noreferrer">InsideAirbnb</a> 
+                    per proveir les dades d'Airbnb.
+                </p>
+            </div>
+    
+            <!-- Tercera columna: Sindominio -->
+            <div class="column">
+                <div class="logos">
+                    <a href="https://sindominio.net" target="_blank" rel="noopener noreferrer">
+                        <img src="https://sindominio.net/abdt/Imatges/sd-logo.png" alt="Sindominio.net">
+                    </a>
+                </div>
+                <p>
+                    Gràcies a <a href="https://sindominio.net" target="_blank" rel="noopener noreferrer">Sindominio.net</a> 
+                    per la col·laboració en aquest projecte.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
