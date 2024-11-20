@@ -6,71 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manifest - Cases o Turisme</title>
     <link rel="icon" href="https://sindominio.net/abdt/Imatges/Ico-Cases-o-Turisme.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+
     <style>
-        /* Global Styles */
-        html, body {
-            height: 100%;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            background-color: #f0f0f0;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: #0024b8;
-            color: white;
-            padding: 1rem;
-        }
-
-        /* Container for centering content */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        /* Flex utilities */
-        .flex {
-            display: flex;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
-        .subtitle {
-            font-size: 0.9rem;
-            font-weight: normal;
-            color: #cccccc;
-            margin-top: 0px;
-            line-height: 0.5;
-        }
-
-        /* Navigation List Styling */
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            gap: 1rem;
-        }
-
-        nav ul li {
-            margin-left: 1rem;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-
         /* Main Content Styles */
         main {
             flex-grow: 1;
@@ -182,7 +120,13 @@
             <div class="flex items-center">
                 <!-- Logo amb el títol integrat -->
                 <a href="/" style="margin-right: 1rem;">
-                    <img src="https://sindominio.net/abdt/Imatges/casesoturisme.png" alt="Logo ABDT" style="height: 5rem;">
+                    <picture>
+                        <source media="(min-width: 768px)" srcset="https://sindominio.net/abdt/Imatges/casesoturisme.png">
+                        <img src="https://sindominio.net/abdt/Imatges/casesoturisme.png" 
+                             srcset="/Imatges/casesoturisme_mobile.png 480w, /Imatges/casesoturisme_mobile.png 768w"
+                             style="height: 5rem;"
+                             alt="Logo ABDT">
+                      </picture>
                 </a>
             </div>
             
