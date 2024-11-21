@@ -81,3 +81,16 @@ main {
     padding: 0.25rem 0.5rem;
     border-bottom: 1px solid #e2e8f0;
 }
+
+.logo-wrapper {
+    img {
+        height: 3rem;
+        @media (min-width: 481px) {
+            height: 4rem;
+        }
+        @media (min-width: 769px) {
+            height: 5rem;
+        }
+    }
+}
+
