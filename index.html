@@ -7,6 +7,7 @@
     <title>Cases o Turisme, 190.00 oportunitats</title>
     <link rel="icon" href="https://sindominio.net/abdt/Imatges/Ico-Cases-o-Turisme.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="map.css">
 
     <style>
         
@@ -160,44 +161,6 @@
             font-size: 1.5rem;
             color: #333;
             transition: transform 0.2s ease;
-        }
-
-        .filter-icon {
-            cursor: pointer;
-            font-size: 1.2rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            display: block;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            border-radius: 0.25rem;
-            transition: background-color 0.3s;
-        }
-
-        .filter-icon.on {
-            background-color: #4CAF50;
-        }
-
-        .filter-icon.off {
-            background-color: #F44336;
-        }
-
-        /* Filter Grid and Media Queries */
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
-            gap: 1rem; /* Separación entre columnas */
-            padding: 1rem;
-            background-color: #f7fafc;
-            border-radius: 0.5rem;
-        }
-
-        @media (min-width: 768px) {
-            /* Filter grid layout: four columns on medium to large screens */
-            .filter-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
 
         /* Tabs and Chart Placeholder */
@@ -415,95 +378,7 @@
             .crisis-stat-label {
                 font-size: 0.6rem;
              }
-
-        /* Estilo de cada grupo de filtros */
-        .filter-group {
-            display: flex;
-            flex-direction: column; /* Las opciones se apilan verticalmente */
-            gap: 0.5rem; /* Espaciado entre las opciones */
         }
-        /* Toggle container */
-        .filter-toggle {
-            display: flex; /* Para alinear el checkbox y el texto horizontalmente */
-            align-items: center; /* Centrar verticalmente */
-            width: 100%; /*     u que el elemento ocupe toda la línea */
-            margin-bottom: 10px; /* Separación entre las opciones */
-        }
-
-        .filter-toggle span {
-            margin-left: 8px; /* Separación entre el checkbox y el texto */
-            display: inline-block; /* Asegurar que el texto quede alineado correctamente */
-        }
-
-        /* Estilo de los checkboxes */
-        .filter-toggle input[type="checkbox"] {
-            appearance: none; /* Desactiva los estilos personalizados */
-            -webkit-appearance: none; /* Compatibilidad con Safari */
-            accent-color: blue; /* Tick azul en navegadores compatibles */
-            width: auto; /* Tamaño ajustado automáticamente */
-            height: auto; /* Tamaño ajustado automáticamente */
-            margin-right: 10px; /* Separación entre el checkbox y el texto */
-            cursor: pointer; /* Indica interactividad */
-        }
-
-        /* Toggle switch */
-        .toggle {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 20px;
-            margin-left: 10px;
-        }
-
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            border-radius: 20px;
-            transition: 0.4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 14px;
-            width: 14px;
-            border-radius: 50%;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.4s;
-        }
-
-        input:checked + .slider {
-            background-color: #52bf90;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        .slider.off {
-            background-color: #ff5252;
-        }
-       
-        .popup-content a:hover {
-            color: #ffe500;
-            text-decoration: underline;
-        }
-
-        }
-
     </style>
     <!-- Leaflet.js CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -528,16 +403,15 @@
 <body>
     <header>
         <div class="container flex justify-between items-center">
-            <div class="flex items-center">
+            <div class="flex items-center logo-wrapper">
                 <!-- Logo amb el títol integrat -->
-                <a href="https://casesoturisme.org/" style="margin-right: 1rem;">
+                <a href="https://casesoturisme.org/">
                     <picture>
-                        <source media="(min-width: 768px)" srcset="https://sindominio.net/abdt/Imatges/casesoturisme.png">
+                        <source media="(max-width: 768px)" srcset="https://sindominio.net/abdt/Imatges/casesoturisme_mobile.png">
+                        <source media="(min-width: 769px)" srcset="https://sindominio.net/abdt/Imatges/casesoturisme.png">
                         <img src="https://sindominio.net/abdt/Imatges/casesoturisme.png" 
-                             srcset="https://sindominio.net/abdt/Imatges/casesoturisme_mobile.png 480w, https://sindominio.net/abdt/Imatges/casesoturisme_mobile.png 768w"
-                             style="height: 5rem;"
                              alt="Logo ABDT">
-                      </picture>
+                    </picture>
                 </a>
             </div>
             
@@ -550,7 +424,11 @@
             </nav>
         </div>
     </header>
-    
+
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
     <main class="container">
         <div class="card" style="margin-top: 2rem;">
             <div class="card-content">
@@ -862,12 +740,11 @@
                 originalData = data;
                 populateFilters(data);
                 applyFilters();  // Initial filter application
-                updateMap(originalData);  // Load map initially with all data
             })
             .catch(error => console.error('Error loading JSON from S3:', error));
     
             // Apply filters and update the charts and map
-            function applyFilters() {
+            async function applyFilters() {
                 const selectedQuarters = Array.from(document.querySelectorAll('#quarterFilter .filter-input:checked')).map(input => input.getAttribute('data-value'));
                 const selectedPropertyTypes = Array.from(document.querySelectorAll('#propertyTypeFilter .filter-input:checked')).map(input => input.getAttribute('data-value'));
                 const selectedLegalities = Array.from(document.querySelectorAll('#legalityTypeFilter .filter-input:checked')).map(input => input.getAttribute('data-value'));
@@ -940,70 +817,68 @@
                     iconAnchor: [12, 12]
                 });
             }
+
+            function getFilterToggleHtml(value) {
+                return `
+                    <span>${value}</span>
+                    <label class="toggle">
+                        <input type="checkbox" class="filter-input" data-value="${value}" checked>
+                        <span class="slider"></span>
+                    </label>
+                `;
+            }
     
             // Populate filters
             function populateFilters(data) {
-            // Quarter filter
-            const uniqueQuarters = [...new Set(data.map(listing => listing.district))];
-            const quarterFilter = document.getElementById('quarterFilter');
-            if (quarterFilter) {
-                uniqueQuarters.forEach(quarter => {
-                    const label = document.createElement('label');
-                    label.classList.add('filter-toggle');
-                    label.innerHTML = `
-                        <span>${quarter}</span>
-                        <label class="toggle">
-                            <input type="checkbox" class="filter-input" data-value="${quarter}" checked>
-                            <span class="slider"></span>
-                        </label>
-                    `;
-                    quarterFilter.appendChild(label);
+                // Quarter filter
+                const uniqueQuarters = [...new Set(data.map(listing => listing.district))];
+                const quarterFilter = document.getElementById('quarterFilter');
+                if (quarterFilter) {
+                    uniqueQuarters.forEach(quarter => {
+                        const label = document.createElement('label');
+                        label.classList.add('filter-toggle');
+                        label.innerHTML = getFilterToggleHtml(quarter);
+                        quarterFilter.appendChild(label);
+                    });
+                }
+
+                // Legality filter
+                const uniqueLegalityTypes = [...new Set(data.map(listing => listing.status))];
+                const legalityTypeFilter = document.getElementById('legalityTypeFilter');
+                if (legalityTypeFilter) {
+                    uniqueLegalityTypes.forEach(type => {
+                        const label = document.createElement('label');
+                        label.classList.add('filter-toggle');
+                        label.innerHTML = getFilterToggleHtml(type);
+                        legalityTypeFilter.appendChild(label);
+                    });
+                }
+
+                // Property type filter
+                const uniquePropertyTypes = [...new Set(data.map(listing => listing.tipus_abdt))];
+                const propertyTypeFilter = document.getElementById('propertyTypeFilter');
+                if (propertyTypeFilter) {
+                    uniquePropertyTypes.forEach(type => {
+                        const label = document.createElement('label');
+                        label.classList.add('filter-toggle');
+                        label.innerHTML = getFilterToggleHtml(type);
+                        propertyTypeFilter.appendChild(label);
+                    });
+                }
+
+                // Add event listener to toggle each filter item on click and apply filters immediately
+                document.querySelectorAll('.filter-input').forEach(input => {
+                    input.addEventListener('change', () => {
+                        document.querySelector('.loader-wrapper').classList.add('enable');
+                        setTimeout(() => {
+                            applyFilters().then(
+                                () => document.querySelector('.loader-wrapper').classList.remove('enable')
+                            );
+                        }, 0);
+                    });
+                    
                 });
             }
-
-            // Legality filter
-            const uniqueLegalityTypes = [...new Set(data.map(listing => listing.status))];
-            const legalityTypeFilter = document.getElementById('legalityTypeFilter');
-            if (legalityTypeFilter) {
-                uniqueLegalityTypes.forEach(type => {
-                    const label = document.createElement('label');
-                    label.classList.add('filter-toggle');
-                    label.innerHTML = `
-                        <span>${type}</span>
-                        <label class="toggle">
-                            <input type="checkbox" class="filter-input" data-value="${type}" checked>
-                            <span class="slider"></span>
-                        </label>
-                    `;
-                    legalityTypeFilter.appendChild(label);
-                });
-            }
-
-            // Property type filter
-            const uniquePropertyTypes = [...new Set(data.map(listing => listing.tipus_abdt))];
-            const propertyTypeFilter = document.getElementById('propertyTypeFilter');
-            if (propertyTypeFilter) {
-                uniquePropertyTypes.forEach(type => {
-                    const label = document.createElement('label');
-                    label.classList.add('filter-toggle');
-                    label.innerHTML = `
-                        <span>${type}</span>
-                        <label class="toggle">
-                            <input type="checkbox" class="filter-input" data-value="${type}" checked>
-                            <span class="slider"></span>
-                        </label>
-                    `;
-                    propertyTypeFilter.appendChild(label);
-                });
-            }
-
-            // Add event listener to toggle each filter item on click and apply filters immediately
-            document.querySelectorAll('.filter-input').forEach(input => {
-                input.addEventListener('change', () => {
-                    applyFilters();  // Apply filters when the state of a checkbox changes
-                });
-            });
-        }
     
             function updateApartmentChart(data) {
                 const totalAllotjaments = data.filter(listing => listing.length && listing.tipus_abdt !== 'Temporada').length;
@@ -1296,14 +1171,6 @@
                 const icon = toggleButton.querySelector("i");
                 icon.classList.toggle("bi-chevron-down");
                 icon.classList.toggle("bi-chevron-up");
-            });
-
-            document.querySelectorAll('.filter-icon').forEach(icon => {
-                icon.addEventListener("click", () => {
-                    icon.classList.toggle("on");
-                    icon.classList.toggle("off");
-                    applyFilters();
-                });
             });
         }); 
     
