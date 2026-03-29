@@ -1,0 +1,44 @@
+---
+title: Nota Metodològica
+date: 2024-11-01
+author: Assemblea de Barris pel Decreixement Turístic
+tags: [metodologia, dades, opendata]
+---
+
+Aquesta pàgina detalla la metodologia utilitzada en l'estudi "Cases o Turisme: 190.000 oportunitats de recuperar habitatge". A continuació, es descriuen les fonts de dades, els mètodes d'anàlisi, les definicions i les consideracions importants per interpretar els resultats.
+
+## Fonts de Dades
+
+- **Dades d'Airbnb:** Proporcionades per Inside Airbnb, una organització independent que recopila informació pública d'Airbnb.
+- **Dades oficials d'allotjaments turístics:** Proporcionades pel cens de l'Ajuntament de Barcelona, incloent informació sobre hotels, pensions, albergs i habitatges d'ús turístic (HUT) amb llicència.
+
+## Mètodes d'Anàlisi
+
+- **Identificació d'allotjaments:** S'han creuat les dades d'Airbnb amb les dades oficials per identificar allotjaments amb i sense llicència vàlida.
+- **Anàlisi de la validesa de la llicència a Airbnb:** S'han definit criteris de validesa i usat per a evaluar tots els allotjaments.
+- **Conversió d'adreçes a coordenades:** Els allotjaments provenent del cens de ajuntament només contenen la direcció que hem convertit a través de https://geocode.maps.co/ (open source) a coordenades per a presentar-los al mapa.
+- **Generació del mapa:** S'han mostrat les dades en un mapa utilitzant OpenStreetmap (open source).
+
+## Categorització
+
+- **Hotels:** incloem dintre d'aquesta categoria tot tipus d'hotels pero també; pensions, albergs i residències d'estudiants.
+- **Habitatges d'ús turístic (HUTs):** incloem
+- **Temporada:** incloem els apartaments complets d'Airbnb que només es lloguen per un mínim de >30 dies els categoritzem com a lloguer de temporada.
+- **Habitacions:** incloem el lloguer d'habitacions compartides o privades.
+
+La identificació d'allotjaments sense llicència es basa en la informació disponible i pot estar subjecta a errors.
+
+## Criteris de Validesa
+
+- **Hotels i HUTS:** Llicència vàlida no repetida (si una llicència està introduïda en més d'un allotjament es consideren tots els allotjaments amb aquesta llicència com a no vàlids)
+- **Temporada:** Tots es consideren com a vàlids.
+- **Habitacions:** Llicència vàlida o amfitrió amb només un allotjament pujat a Airbnb (en el moment en el que un amfitrió té més d'un allotjament a Airbnb considerem les habitacions com a no vàlides)
+
+## Consideracions Importants
+
+- Les dades d'Airbnb són una captura en un moment específic el 6 de setembre i poden no reflectir canvis recents.
+- La identificació d'allotjaments sense llicència vàlida es basa només en la informació disponible a Airbnb i el cens i pot estar subjecta a errors.
+- La categorització dels allotjaments d'Airbnb prové d'Airbnb i pertant està subjecte a errors.
+- L'estudi no inclou plataformes de lloguer vacacional diferents d'Airbnb, com per exemple Booking, pertant subestima el nombre total d'allotjaments turístics.
+
+Per a més informació o consultes sobre la metodologia, si us plau, contacteu amb l'Assemblea de Barris pel Decreixement Turístic. La millor forma de recolzar el projecte és compartir-lo.

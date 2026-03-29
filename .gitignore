@@ -1,1 +1,4 @@
 .DS_Store
+
+# Backend Secrets and separate repo
+/backend

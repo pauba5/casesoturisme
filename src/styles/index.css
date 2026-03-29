@@ -1,0 +1,333 @@
+/* =============================
+   GOOGLE FONTS IMPORT
+   ============================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+/* =============================
+   DESIGN TOKENS
+   ============================= */
+:root {
+  --color-brand-blue: #0024b8;
+  --color-brand-yellow: #ffe500;
+  --color-brand-blue-light: #1a3fd4;
+  --color-brand-blue-dark: #001a8a;
+
+  --color-bg: #f5f5f7;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+
+  --color-legal: #16a34a;
+  --color-illegal: #dc2626;
+  --color-no-license: #ea580c;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-soft: 0 20px 40px -4px rgb(0 0 0 / 0.06), 0 8px 16px -4px rgb(0 0 0 / 0.04);
+  --shadow-float: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+
+  --header-height: 72px;
+  --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =============================
+   RESET & BASE
+   ============================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* =============================
+   TYPOGRAPHY
+   ============================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.2rem, 3vw, 1.75rem); }
+h3 { font-size: clamp(1rem, 2.5vw, 1.25rem); }
+
+p {
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+/* =============================
+   LAYOUT UTILITIES
+   ============================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  width: 100%;
+}
+
+.page-padding {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+/* =============================
+   CARD
+   ============================= */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+/* =============================
+   LEAFLET OVERRIDES
+   ============================= */
+.leaflet-container {
+  border-radius: var(--radius-md);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* Cluster markers */
+.marker-cluster {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #222;
+  font-size: 0.8rem;
+}
+
+.marker-cluster-small {
+  background-color: rgba(241,211,87,0.92);
+  border: 4px solid rgba(241,211,87,0.5);
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.marker-cluster-medium {
+  background-color: rgba(253,156,115,0.92);
+  border: 6px solid rgba(253,156,115,0.5);
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.marker-cluster-large {
+  background-color: rgba(220,50,50,0.92);
+  border: 8px solid rgba(220,50,50,0.5);
+  width: 60px !important;
+  height: 60px !important;
+}
+
+.marker-cluster div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Legend box */
+.map-legend {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  box-shadow: var(--shadow-md);
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* =============================
+   LOADING SPINNER
+   ============================= */
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.loader-wrapper.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.loader {
+  width: 44px;
+  height: 44px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-brand-blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* =============================
+   FILTER TOGGLE
+   ============================= */
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background var(--transition);
+  gap: 0.5rem;
+}
+
+.filter-toggle:hover {
+  background: var(--color-bg);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--color-brand-blue);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(16px);
+}
+
+/* =============================
+   RESPONSIVE UTILS
+   ============================= */
+@media (max-width: 768px) {
+  .hide-mobile { display: none !important; }
+  .container { padding: 0 1rem; }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
+
+/* Remogut import al final - Mogut a dalt de tot */

@@ -1,0 +1,130 @@
+.panel {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.group {
+  padding: 1rem 0.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.group:last-child {
+  border-bottom: none;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.groupTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.groupActions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.actionBtn {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition: background var(--transition), color var(--transition);
+}
+
+.actionBtn:hover:not(:disabled) {
+  background: var(--color-brand-blue);
+  color: white;
+  border-color: var(--color-brand-blue);
+}
+
+.actionBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.option:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.optionLabel {
+  font-size: 0.82rem;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.15);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background 250ms ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 2px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.toggle input:checked + .slider {
+  background: var(--color-brand-blue);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(18px);
+}

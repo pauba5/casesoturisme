@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* Wrapper per a pàgines fullscreen (mapa) */
+.fullscreen {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  background-color: var(--color-bg);
+  padding-top: var(--header-height);
+}
+
+.mainHome {
+  padding-top: 0;
+}
+
+/* Main per a pàgines fullscreen: ocupa l'alçada restant */
+.mainFullscreen {
+  flex: 1;
+  min-height: 0; /* permet al flex child ser més petit que el seu contingut */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
